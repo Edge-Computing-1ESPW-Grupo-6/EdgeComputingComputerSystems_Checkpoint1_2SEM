@@ -80,6 +80,12 @@ void loop() {
   strcpy(postData, "{\n\t\"variable\": \"Temperatura_Media\",\n\t\"value\": ");
   dtostrf(temp, 6, 2, anyData);
   strncat(postData, anyData, 100);
+  strcpy(anyData1, "\n\t}\n");
+  client.begin(serverAddress);
+  client.addHeader("Content-Type", contentHeader);
+  client.addHeader("Device-Token", tokenHeader);
+  statusCode = client.POST(postData);
+  
   strcpy(anyData1, ",\n\t\"unit\": \"C\"");
   strncat (postData, anyData1, 100);
   strcpy(postData, "{\n\t\"variable\": \"Umidade_Media\",\n\t\"value\": ");
@@ -125,6 +131,7 @@ void lerTemp(){
     soma_temp += valor_temp[i];
   }
   temp = soma_temp / array_temp;
+  Serial.println("Temperatura: " + String(temp))
 }
 
 void lerUmi(){
@@ -145,6 +152,7 @@ void lerUmi(){
     soma_umid += valor_umid[i];
   }
   umidade = soma_umid / array_umid;
+  Serial.println("Umidade: " + String(umidade))
 }
 
 void lerLumi(){
@@ -164,4 +172,5 @@ void lerLumi(){
     soma_luz += valor_luz[i];
   }
   luminosidade = soma_luz / array_luz;
+  Serial.println("Luminosidade: " + String(luminosidade))
 }
