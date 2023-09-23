@@ -12,7 +12,7 @@
 
 **Ano:** 2023
 ___
-<img src="Projeto_Tinkercad.png">
+<img src="Cicuito_ESP32.png">
 
 ### Descrição do Projeto
 Após a apresentação da primeira parte do projeto para os proprietários da Vinheira, e o feedback positivo retornado por eles, recebemos alguns questionamento e solicitações de adições e modificações ao projeto. Dessa forma, fizemos as segunites atualizações para atender aos requisitos apresentados:
