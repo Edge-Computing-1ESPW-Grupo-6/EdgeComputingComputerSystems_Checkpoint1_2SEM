@@ -11,10 +11,13 @@ char tokenHeader[]   = "TOKEN da TAGO"; //Token do Dispositivo
 
 HTTPClient client;
 
-int potenciometro = A3; // define o pino do potenciometro (simulando um sensor de umidade)
-int sensorTemp = A4; // define o pino do sensor de temperatura
+const int pinoDHT11 = A
 const int sensorLDR = A5; // define o pino do sensor de luz
 
+DHT dht (13, DHT11); // define o pino para o sensor DHT11
+
+float dhtTemperatura = 0; // variável para armazenar a temperatura lida
+float dhtUmidade = 0; // variável para armazenar a umidade lida
 int luminosidade; // variável para armazenar a luminosidade lida do sensor
 
 //variáveis para conversão de volts (resultado do sensor de temperatura) em temperatura
@@ -39,9 +42,6 @@ int index_umid = 0;
 const int array_luz = 5;
 float valor_luz[array_luz];
 int index_luz = 0;
-
-
-
 
 void init_wifi() {
   Serial.println("Conectando WiFi");
@@ -80,24 +80,31 @@ void loop() {
   strcpy(postData, "{\n\t\"variable\": \"Temperatura_Media\",\n\t\"value\": ");
   dtostrf(temp, 6, 2, anyData);
   strncat(postData, anyData, 100);
+  strcpy(anyData1, ",\n\t\"unit\": \"°C\"\n\t}\n");
+  client.begin(serverAddress);
+  client.addHeader("Content-Type", contentHeader);
+  client.addHeader("Device-Token", tokenHeader);
+  statusCode = client.POST(postData);
+  Serial.println(postData);
+
+  strcpy(postData, "{\n\t\"variable\": \"Umidade_Media\",\n\t\"value\": ");
+  dtostrf(temp, 6, 2, anyData);
+  strncat(postData, anyData, 100);
+  strcpy(anyData1, ",\n\t\"unit\": \"%\"\n\t}\n");
+  client.begin(serverAddress);
+  client.addHeader("Content-Type", contentHeader);
+  client.addHeader("Device-Token", tokenHeader);
+  statusCode = client.POST(postData);
+  Serial.println(postData);
+
+  strcpy(postData, "{\n\t\"variable\": \"Luminosidade_Media\",\n\t\"value\": ");
+  dtostrf(temp, 6, 2, anyData);
+  strncat(postData, anyData, 100);
   strcpy(anyData1, "\n\t}\n");
   client.begin(serverAddress);
   client.addHeader("Content-Type", contentHeader);
   client.addHeader("Device-Token", tokenHeader);
   statusCode = client.POST(postData);
-  
-  strcpy(anyData1, ",\n\t\"unit\": \"C\"");
-  strncat (postData, anyData1, 100);
-  strcpy(postData, "{\n\t\"variable\": \"Umidade_Media\",\n\t\"value\": ");
-  dtostrf(umidade, 6, 2, anyData);
-  strncat(postData, anyData, 100);
-  strcpy(anyData1, ",\n\t\"unit\": \"%\"");
-  strncat (postData, anyData1, 100);
-  strcpy(postData, "{\n\t\"variable\": \"Luminosidade_Media\",\n\t\"value\": ");
-  dtostrf(luminosidade, 6, 2, anyData);
-  strncat(postData, anyData, 100);
-  strcpy(anyData1, "\n\t}\n");
-  strncat (postData, anyData1, 100);
   Serial.println(postData);
 
   client.begin(serverAddress);
@@ -109,14 +116,12 @@ void loop() {
   Serial.println(statusCode);
   Serial.println("End of POST to TagoIO");
   Serial.println();
-  delay(5000);
+  delay(2000);
 }
 
-void lerTemp(){
-  // faz a leitura da temperatura e converte para graus Celsius
-  tempRaw = analogRead(sensorTemp);
-  tempVolt = (tempRaw / 1023.0) * 5000; // 5000 para resultado em millivots.
-  int temp_atual = (tempVolt-500) * 0.1;
+void lerTemp(void) {
+  dhtTemperatura =  dht.readTemperature();
+  int temp_atual = dhtTemperatura;
   
   // armazena as leituras de temperatura em array, substituindo o valor mais antigo a cada nova leitura
   valor_temp[index_temp] = temp_atual;
@@ -136,8 +141,8 @@ void lerTemp(){
 
 void lerUmi(){
   // faz a leitura da umidade e converte para porcentagem
-  int umidadeValue = analogRead(potenciometro);
-  int umid_atual = umidadeValue / 10.23;
+  dhtUmidade = dht.readHumidity();
+  int umid_atual = dhtUmidade;
   
   // armazena as leituras de umidade em array, substituindo o valor mais antigo a cada nova leitura
   valor_umid[index_umid] = umid_atual;
