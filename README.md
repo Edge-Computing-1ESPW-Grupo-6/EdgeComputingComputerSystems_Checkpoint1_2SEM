@@ -38,7 +38,7 @@ ___
 ### Desenvolvimento do projeto
 O projeto foi desaenvolvido utilizando a aplicação plataforma [Wowki](https://wokwi.com), para planejamento e rascunho da montagem do circuito físico utilizando a placa [ESP32](https://www.espressif.com/en/products/socs/esp32) (que possui conectividade Bluetooh e WiFi), e a plataforma Arduino, juntamente com seus componentes físicos, para a montagem efetiva do circuito.
 
-A elaboração do circuito final, juntamente com seu código de execução, foi feita através de pesquisas por outros projetos que utilizassem sistemas semelhantes, materiais apresentados em sala de aula e a inteligência artificial ChatGPT,  bem como auxílio do professor, também em sala, até que foi possível arquitetar esta versão final adaptada a nossa necessidade. Assim, foi possível que fizéssemos atualizaçõesno circuito apresentado na primeira entrega, acrescentando as novas funcionalidades solicitadas pelo cliente. 
+A elaboração do circuito final, juntamente com seu código de execução, foi feita através de pesquisas por outros projetos que utilizassem sistemas semelhantes, materiais apresentados em sala de aula e a inteligência artificial ChatGPT,  bem como auxílio do professor, também em sala, até que foi possível arquitetar esta versão final adaptada a nossa necessidade. Assim, foi possível que fizéssemos atualizações no circuito apresentado na segunda entrega, acrescentando as novas funcionalidades solicitadas pelo cliente. 
 
 Já a plataforma utilizada para armazenar os dados enviados foi a paltaforma [Tago](https://tago.io), que foi devidamente configurada para receber as informações captadas pelos sensores, e exibí-las de modo intuitivo através de dashboards específicos.
 ___
